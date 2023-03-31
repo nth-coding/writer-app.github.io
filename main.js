@@ -1,8 +1,9 @@
 window.onload = function() {
+    
     // event click button add
     var btn = document.getElementById('saveBtn');
     btn.addEventListener('click', function() {
-        var text = document.querySelector('[role=textbox]').innerText;
+        var text = CKEDITOR.instances['my-editor'].getData();
         if (text === '') {
             alert("You must write something!");
             return;
@@ -20,17 +21,13 @@ window.onload = function() {
     })
 
     var checkBtn = document.getElementById('checkBtn');
-    checkBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        // var editor = CKEDITOR.instances.content;
-        // editor.setData('<p>Some <strong>sample</strong> text</p>');
-        document.querySelector('[data-placeholder="Type here"]').innerText = '<p>Some <strong>sample</strong> text</p>';
-        // refresh();
-
-        alert("Check success!");
+    checkBtn.addEventListener('click', function() {
+        var editorContent = CKEDITOR.instances['my-editor'];
+        editorContent.insertHtml('<p>Test</p>');
+        // alert(text);
     })
 
-    refresh();
+    // refresh();
 }
 
 function getLocalElementList() {
@@ -79,13 +76,17 @@ function createNewElement(writeApp) {
         // open new tab
         var url = "index.html";
         var win = window.open(url, '_blank');
-
+      
         // send data to new tab
-        win.onload = function() {
-            win.document.querySelector('[role=textbox]').innerText = writeApp.text;
-        }
-        win.focus();
-    })
+        var data = writeApp.text;
+        var intervalId = setInterval(function() {
+          if (win.CKEDITOR && win.CKEDITOR.instances['my-editor']) {
+            clearInterval(intervalId);
+            win.CKEDITOR.instances['my-editor'].setData(data);
+          }
+        }, 100);
+      });
+      
     document.getElementById('myDocs').appendChild(doc); 
 }
 
