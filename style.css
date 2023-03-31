@@ -1,0 +1,55 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    /* background-image: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(40,96,97,1) 22%, rgba(0,212,255,1) 100%);     */
+}
+a {
+    color: #000;
+    text-decoration: none;
+}
+a:hover {
+    color: #000;
+    text-decoration: underline;
+}
+h1 {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+}
+.title {
+    font-size: 1.5em;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+}
+#container {
+    width: 1000px;
+    margin: 20px auto;
+    background-color: white;
+    border-radius: 5px;
+}
+.ck-editor__editable[role="textbox"] {
+    /* editing area */
+    min-height: 500px;
+}
+.ck-content .image {
+    /* block images */
+    max-width: 80%;
+    margin: 20px auto;
+}
+
+a.logo img {
+    max-height: 60px;
+}
+
+.addBtn {
+    text-decoration: underline;
+}
+
+.doc-delete:hover {
+    text-decoration: underline;
+}
+
+.doc-edit:hover {
+    text-decoration: underline;
+}
