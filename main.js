@@ -1,43 +1,65 @@
-window.onload = function() {
-    
-    // event click button add
-    var btn = document.getElementById('saveBtn');
-    btn.addEventListener('click', function() {
-        var text = CKEDITOR.instances['my-editor'].getData();
-        if (text === '') {
-            alert("You must write something!");
-            return;
-        }
+window.onload = function () {
+    var saveBtn = document.getElementById('saveBtn');
+    if (saveBtn != null) {
+        saveBtn.addEventListener('click', function () {
+            var editorText = CKEDITOR.instances['my-editor'].getData();
+            if (editorText === '') {
+                alert("You must write something!");
+                return;
+            }
 
-        var writeApp = {};
-        writeApp.text = text;
-        writeApp.date = new Date().toDateString();
+            var list = getLocalElementList();
+            var writeApp = {};
 
-        addElement(writeApp);
-        alert("Add success!");
-        refresh();
+            writeApp.text = editorText;
+            writeApp.date = new Date().toDateString();
+            writeApp.index = getIndex();
 
-        // document.querySelector('[role=textbox]').value = '';
-    })
+            // addElement(writeApp);
+            // removeElement(list[getIndex() - 1].text);
+            if (getIndex() == 0) {
+                editElement(writeApp, getIndex());
+            } else {
+                editElement(writeApp, getIndex() - 1);
+            }
 
-    var checkBtn = document.getElementById('checkBtn');
-    checkBtn.addEventListener('click', function() {
-        var editorContent = CKEDITOR.instances['my-editor'];
-        editorContent.insertHtml('<p>Test</p>');
-        // alert(text);
-    })
+            alert("Save success!");
 
-    // refresh();
+            // close tab
+            // window.close();
+
+            refresh();
+        })
+    }
+
+    refresh();
 }
 
-function getLocalElementList() {
-    var localList = localStorage.getItem('writeApplist');
-    if (!localList) return [];
-    return JSON.parse(localList);
+function getIndex() {
+    var url = window.location.href;
+    var index = url.indexOf("key=");
+    index = url.substring(index + 4);
+
+    // console.log(url + " " + index);
+
+    if (index < 0) {
+        return getLocalElementList().length - 1;
+    }
+    return index;
 }
 
-function setLocalElementList(list) {
-    localStorage.setItem('writeApplist', JSON.stringify(list));
+function newDoc() {
+    var writeApp = {};
+
+    writeApp.text = '';
+    writeApp.date = new Date().toDateString();
+    writeApp.index = getLocalElementList().length;
+    addElement(writeApp);
+
+    var url = "index.html";
+    window.open(url, '_blank');
+
+    refresh();
 }
 
 function removeElement(writeAppText) {
@@ -58,6 +80,22 @@ function addElement(writeApp) {
     setLocalElementList(list);
 }
 
+function editElement(writeApp, index) {
+    var list = getLocalElementList();
+    list[index] = writeApp;
+    setLocalElementList(list);
+}
+
+function getLocalElementList() {
+    var localList = localStorage.getItem('writeApplist');
+    if (!localList) return [];
+    return JSON.parse(localList);
+}
+
+function setLocalElementList(list) {
+    localStorage.setItem('writeApplist', JSON.stringify(list));
+}
+
 function createNewElement(writeApp) {
     var doc = document.createElement('div');
     doc.className = 'doc';
@@ -68,26 +106,26 @@ function createNewElement(writeApp) {
         <div class="doc-edit">Edit</div>
         </br>
     `;
-    doc.querySelector('.doc-delete').addEventListener('click', function() {
+    doc.querySelector('.doc-delete').addEventListener('click', function () {
         removeElement(writeApp.text);
         refresh();
     })
-    doc.querySelector('.doc-edit').addEventListener('click', function() {
+    doc.querySelector('.doc-edit').addEventListener('click', function () {
         // open new tab
-        var url = "index.html";
+        var url = "index.html?key=" + writeApp.index;
         var win = window.open(url, '_blank');
-      
+
         // send data to new tab
         var data = writeApp.text;
-        var intervalId = setInterval(function() {
-          if (win.CKEDITOR && win.CKEDITOR.instances['my-editor']) {
-            clearInterval(intervalId);
-            win.CKEDITOR.instances['my-editor'].setData(data);
-          }
+        var intervalId = setInterval(function () {
+            if (win.CKEDITOR && win.CKEDITOR.instances['my-editor']) {
+                clearInterval(intervalId);
+                win.CKEDITOR.instances['my-editor'].setData(data);
+            }
         }, 100);
-      });
-      
-    document.getElementById('myDocs').appendChild(doc); 
+    });
+
+    document.getElementById('myDocs').appendChild(doc);
 }
 
 function refresh() {
