@@ -175,3 +175,33 @@ function refresh() {
     createNewElement(doc);
   }
 }
+
+function downloadHtml() {
+  const content = window.editor.getData(); 
+  const element = document.createElement("a"); 
+  const file = new Blob([content], { type: "text/html" }); 
+  
+  element.href = URL.createObjectURL(file); 
+  element.download = "document.html"; 
+
+  document.body.appendChild(element); 
+  element.click(); 
+  document.body.removeChild(element); 
+}
+
+function downloadText() {
+  var content = window.editor.getData().replace(/<\/?[^>]+(>|$)/g, "");
+  // check if content has &nbsp;
+  if (content.indexOf("&nbsp;") >= 0) {
+    content = content.replace(/&nbsp;/g, " ");
+  }
+
+  const element = document.createElement("a"); 
+  const file = new Blob([content], { type: "text/plain" }); 
+  element.href = URL.createObjectURL(file); 
+  element.download = "document.txt"; 
+
+  document.body.appendChild(element); 
+  element.click(); 
+  document.body.removeChild(element); 
+}

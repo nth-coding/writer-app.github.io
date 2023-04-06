@@ -32,17 +32,31 @@
               <input
                 id="title"
                 type="text"
-                placeholder="Tiêu đề"
+                placeholder="Nhập tiêu đề"
                 name="title"
-                style="width: auto; height: auto; border: none"
+                style="
+                  width: auto;
+                  height: auto;
+                  border: none;
+                  text-align: center;
+                "
               />
             </form>
           </div>
 
-          <button class="addBtn button" id="saveBtn">Save</button>
+          <button class="addBtn button-6" id="saveBtn" role="button">
+            Save
+          </button>
+          <button class="addBtn button-6" onclick="downloadHtml()">
+            Tải về dưới dạng HTML
+          </button>
+          <button class="addBtn button-6" onclick="downloadText()">
+            Tải về dưới dạng văn bản
+          </button>
         </div>
       </div>
     </header>
+
     <div class="document">
       <textarea id="my-editor"></textarea>
       <script>
