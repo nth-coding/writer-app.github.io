@@ -1,24 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link rel="stylesheet" href="style.css">
-        <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
-        <script src="main.js"></script>
-    </head>
-    <body>
-        <a class="logo" href="home.html" title="Trang chủ">
-            <img src="assets/logo.png" alt="logo">
-        </a>
-        <span class="addBtn" id="saveBtn">Save</span>
-        <span class="check" id="checkBtn">Check</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Google Tài liệu</title>
+    <link
+      rel="shortcut icon"
+      href="https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+    <script src="main.js"></script>
+  </head>
 
-        <textarea id="my-editor"></textarea>
-        <script>
-            CKEDITOR.replace('my-editor');
-        </script>
-    </body>
+  <body>
+    <header>
+      <div class="banner">
+        <div class="navbar" style="padding-bottom: 15px">
+          <div class="left">
+            <a href="home.html" class="logo">
+              <img
+                src="https://www.gstatic.com/images/branding/product/1x/docs_2020q4_48dp.png"
+                class="logo"
+              />
+            </a>
+          </div>
+
+          <div class="title-name">
+            <form action="#">
+              <input
+                id="title"
+                type="text"
+                placeholder="Tiêu đề"
+                name="title"
+                style="width: auto; height: auto; border: none"
+              />
+            </form>
+          </div>
+
+          <button class="addBtn button" id="saveBtn">Save</button>
+        </div>
+      </div>
+    </header>
+    <div class="document">
+      <textarea id="my-editor"></textarea>
+      <script>
+        var editor = CKEDITOR.replace("my-editor", {
+          width: "1000px",
+          height: "400px",
+        });
+      </script>
+    </div>
+  </body>
 </html>

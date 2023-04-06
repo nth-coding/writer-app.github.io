@@ -1,136 +1,177 @@
+var count = 0;
+
+options = {
+  year: "numeric",
+  month: "numeric",
+  day: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+  hour12: false,
+};
+
 window.onload = function () {
-    var saveBtn = document.getElementById('saveBtn');
-    if (saveBtn != null) {
-        saveBtn.addEventListener('click', function () {
-            var editorText = CKEDITOR.instances['my-editor'].getData();
-            if (editorText === '') {
-                alert("You must write something!");
-                return;
-            }
+  var saveBtn = document.getElementById("saveBtn");
 
-            var list = getLocalElementList();
-            var writeApp = {};
+  
 
-            writeApp.text = editorText;
-            writeApp.date = new Date().toDateString();
-            writeApp.index = getIndex();
+  if (saveBtn != null) {
+    saveBtn.addEventListener("click", function () {
+      var editorText = CKEDITOR.instances["my-editor"].getData();
+      var title = document.getElementById("title").value; 
+      if (editorText === "") {
+        alert("You must write something!");
+        return;
+      }
 
-            // addElement(writeApp);
-            // removeElement(list[getIndex() - 1].text);
-            if (getIndex() == 0) {
-                editElement(writeApp, getIndex());
-            } else {
-                editElement(writeApp, getIndex() - 1);
-            }
+      var list = getLocalElementList();
+      var writeApp = {};
 
-            alert("Save success!");
+      if (title === "") {
+        title = "New Document";
+      }
 
-            // close tab
-            // window.close();
+      writeApp.title = title;
+      writeApp.text = editorText;
+      writeApp.date = new Intl.DateTimeFormat("vi-VN", options).format(new Date());
+      writeApp.stat = "default";
 
-            refresh();
-        })
-    }
+      console.log(writeApp);
 
-    refresh();
-}
+      if (window.location.href.indexOf("key=") < 0) {
+        if (list.length == 1) {
+          writeApp.index = 0;
+          editElement(writeApp, 0);
+        } else {
+          writeApp.index = list.length - 1;
+          editElement(writeApp, list.length - 1);
+        }
+      } else {
+        console.log(3);
+        editElement(writeApp, getIndex());
+      }
+
+      alert("Save success!");
+
+      // close tab
+      // window.close();
+
+      // refresh();
+    });
+  }
+
+  refresh();
+};
 
 function getIndex() {
-    var url = window.location.href;
-    var index = url.indexOf("key=");
-    index = url.substring(index + 4);
+  var url = window.location.href;
+  var index = url.indexOf("key=");
+  index = url.substring(index + 4);
 
-    // console.log(url + " " + index);
+  // console.log(url + " " + index);
 
-    if (index < 0) {
-        return getLocalElementList().length - 1;
-    }
-    return index;
+  if (index < 0) {
+    return getLocalElementList().length - 1;
+  }
+  return index;
 }
 
 function newDoc() {
-    var writeApp = {};
+  var writeApp = {};
 
-    writeApp.text = '';
-    writeApp.date = new Date().toDateString();
-    writeApp.index = getLocalElementList().length;
-    addElement(writeApp);
+  writeApp.title = "New Document";
+  writeApp.text = "";
+  writeApp.date = new Intl.DateTimeFormat("vi-VN", options).format(new Date());
+  writeApp.stat = "default";
 
-    var url = "index.html";
-    window.open(url, '_blank');
+  console.log(writeApp);
 
-    refresh();
+  writeApp.index = count++;
+  addElement(writeApp);
+
+  var url = "index.html";
+  window.open(url, "_blank");
+
+  refresh();
 }
 
-function removeElement(writeAppText) {
-    var list = getLocalElementList();
-    for (var t of list) {
-        if (t.text == writeAppText) {
-            list.splice(list.indexOf(t), 1);
-            break;
-        }
-    }
-    setLocalElementList(list);
+function removeElement(writeApp) {
+  list = getLocalElementList();
+  list[writeApp.index].stat = "deleted";
+
+  setLocalElementList(list);
 }
 
 function addElement(writeApp) {
-    var list = getLocalElementList();
+  var list = getLocalElementList();
 
-    list.push(writeApp);
-    setLocalElementList(list);
+  list.push(writeApp);
+  setLocalElementList(list);
 }
 
 function editElement(writeApp, index) {
-    var list = getLocalElementList();
-    list[index] = writeApp;
-    setLocalElementList(list);
+  var list = getLocalElementList();
+  list[index] = writeApp;
+  setLocalElementList(list);
 }
 
 function getLocalElementList() {
-    var localList = localStorage.getItem('writeApplist');
-    if (!localList) return [];
-    return JSON.parse(localList);
+  var localList = localStorage.getItem("writeApplist");
+  if (!localList) return [];
+  return JSON.parse(localList);
 }
 
 function setLocalElementList(list) {
-    localStorage.setItem('writeApplist', JSON.stringify(list));
+  localStorage.setItem("writeApplist", JSON.stringify(list));
 }
 
 function createNewElement(writeApp) {
-    var doc = document.createElement('div');
-    doc.className = 'doc';
-    doc.innerHTML = `
-        <div class="doc-text">${writeApp.text}</div>
-        <div class="doc-date">${writeApp.date}</div>
-        <div class="doc-delete">Delete</div>
-        <div class="doc-edit">Edit</div>
-        </br>
+  var doc = document.createElement("div");
+  doc.className = "doc";
+  doc.innerHTML = `
+        <div class="card bg-light mb-3" style="max-width: 18rem;">
+            <div class="card-header">
+              ${writeApp.title}
+              <div class="doc-date">${writeApp.date}</div>
+            </div>
+            <div class="card-body">
+              <div class="delnedit"> 
+                  <span class="doc-edit">Edit</span>  
+                  <span class="doc-delete">Delete</span> 
+              </div>
+            </div>
+        </div>
     `;
-    doc.querySelector('.doc-delete').addEventListener('click', function () {
-        removeElement(writeApp.text);
-        refresh();
-    })
-    doc.querySelector('.doc-edit').addEventListener('click', function () {
-        // open new tab
-        var url = "index.html?key=" + writeApp.index;
-        var win = window.open(url, '_blank');
+  doc.querySelector(".doc-delete").addEventListener("click", function () {
+    removeElement(writeApp);
+    refresh();
+  });
+  doc.querySelector(".doc-edit").addEventListener("click", function () {
+    // open new tab
+    var url = "index.html?key=" + writeApp.index;
+    var win = window.open(url, "_blank");
 
-        // send data to new tab
-        var data = writeApp.text;
-        var intervalId = setInterval(function () {
-            if (win.CKEDITOR && win.CKEDITOR.instances['my-editor']) {
-                clearInterval(intervalId);
-                win.CKEDITOR.instances['my-editor'].setData(data);
-            }
-        }, 100);
-    });
+    // send data to new tab
+    var data = writeApp.text;
+    var intervalId = setInterval(function () {
+      if (win.CKEDITOR && win.CKEDITOR.instances["my-editor"]) {
+        clearInterval(intervalId);
+        win.CKEDITOR.instances["my-editor"].setData(data);
+        var title = writeApp.title;
+        win.document.getElementById("title").value = title;
+        win.document.title = title + " - WriteApp";
+      }
+    }, 100);
+  });
 
-    document.getElementById('myDocs').appendChild(doc);
+  document.getElementById("myDocs").appendChild(doc);
 }
 
 function refresh() {
-    document.getElementById('myDocs').innerHTML = '';
-    for (var doc of getLocalElementList()) {
-        createNewElement(doc);
-    }
+  document.getElementById("myDocs").innerHTML = "";
+  for (var doc of getLocalElementList()) {
+    var status = doc.stat;
+    if (status == "deleted") continue;
+
+    createNewElement(doc);
+  }
 }
