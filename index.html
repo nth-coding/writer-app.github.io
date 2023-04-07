@@ -35,8 +35,6 @@
                 placeholder="Nhập tiêu đề"
                 name="title"
                 style="
-                  width: auto;
-                  height: auto;
                   border: none;
                   text-align: center;
                 "
@@ -47,12 +45,7 @@
           <button class="addBtn button-6" id="saveBtn" role="button">
             Save
           </button>
-          <button class="addBtn button-6" onclick="downloadHtml()">
-            Tải về dưới dạng HTML
-          </button>
-          <button class="addBtn button-6" onclick="downloadText()">
-            Tải về dưới dạng văn bản
-          </button>
+          
         </div>
       </div>
     </header>
@@ -61,10 +54,21 @@
       <textarea id="my-editor"></textarea>
       <script>
         var editor = CKEDITOR.replace("my-editor", {
-          width: "1000px",
-          height: "400px",
+          width: "1200px",
+          height: "800px",
         });
       </script>
+    </div>
+
+    
+    <div class="download">
+      <p class="button-6">Download with</p>
+      <button class="addBtn button-6" onclick="downloadHtml()">
+        HTML
+      </button>
+      <button class="addBtn button-6" onclick="downloadText()">
+        Text
+      </button> 
     </div>
   </body>
 </html>

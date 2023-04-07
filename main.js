@@ -205,3 +205,4 @@ function downloadText() {
   element.click(); 
   document.body.removeChild(element); 
 }
+

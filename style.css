@@ -66,6 +66,11 @@ a.logo img {
   border: none;
 }
 
+.doc-edit, .doc-delete {
+  /* color: #0074d9; */
+  cursor: pointer;
+}
+
 .doc-delete:hover {
   text-decoration: underline;
 }
@@ -76,7 +81,6 @@ a.logo img {
 
 .doc {
   width: 200px;
-  height: 300px;
   padding: 20px;
   /* flex: 1 0 18%;  */
   margin: 5px;
@@ -268,4 +272,36 @@ img {
   width: 500px;
   height: 300px;
   margin: auto;
+}
+
+.download {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+
+/*Iphone(480 x 640)*/
+@media only screen and (min-width: 360px) {
+  #myDocs {
+    padding: 0 90px;
+    
+  }
+
+  .doc {
+    margin: 0 auto;
+  }
+
+  .search input[type="text"] {
+    width: 200px;
+    height: 38px;
+    padding: 10px;
+    border-radius: 25px;
+    font-size: 12px;
+  }
+
+  .p-title {
+    text-align: center;
+    padding: 0 65px
+  }
 }
