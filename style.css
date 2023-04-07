@@ -281,8 +281,8 @@ img {
   margin: 10px;
 }
 
-/*Iphone(480 x 640)*/
-@media only screen and (min-width: 360px) {
+/* Phone */
+@media (max-width: 768px) {
   #myDocs {
     padding: 0 90px;
     
@@ -303,5 +303,9 @@ img {
   .p-title {
     text-align: center;
     padding: 0 65px
+  }
+
+  .search-bar {
+    width: 10px;
   }
 }
