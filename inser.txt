@@ -1,0 +1,12 @@
+// Insert in Docs
+
+INSERT INTO Docs (title, stat, content) VALUES ('Test Doc 1', 'default', 'hello world this is a doc 1');
+INSERT INTO Docs (title, stat, content) VALUES ('Test Doc 2', 'default', 'hello world this is a doc 2');
+INSERT INTO Docs (title, stat, content) VALUES ('Test Doc 3', 'default', 'hello world this is a doc 3');
+
+// Insert in Users
+
+INSERT INTO Users (username, pass, email) VALUES ('hiamhai', '1', 'sadtearchelsea@gmail.com');
+INSERT INTO Users (username, pass, email) VALUES ('hiamvu', '1', 'sadtearchelsea@gmail.com');
+INSERT INTO Users (username, pass, email) VALUES ('hiamhieu', '1', 'sadtearchelsea@gmail.com');
+

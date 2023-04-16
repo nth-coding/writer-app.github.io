@@ -1,0 +1,37 @@
+{
+  "name": "docpack",
+  "version": "1.0.0",
+  "description": "https://nth-coding.github.io/writer-web.github.io",
+  "main": "main.js",
+  "scripts": {
+    "devStart": "nodemon --exec babel-node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nth-coding/writer-app.github.io.git"
+  },
+  "author": "nthcoding",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nth-coding/writer-app.github.io/issues"
+  },
+  "homepage": "https://github.com/nth-coding/writer-app.github.io#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mysql2": "^3.2.0",
+    "routes": "^2.1.0",
+    "sequelize": "^6.31.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.4",
+    "@babel/node": "^7.20.7",
+    "@babel/preset-env": "^7.21.4",
+    "nodemon": "^2.0.22",
+    "sequelize-cli": "^6.6.0"
+  }
+}
